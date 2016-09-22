@@ -1,0 +1,85 @@
+# ===================================
+#  Field Definitions
+# ===================================
+
+fields:
+
+    help_title:
+        label: indikator.devtools::lang.form.help_label
+        type: section
+        comment: ''
+        span: left
+
+    wysiwyg_title:
+        label: indikator.devtools::lang.form.wysiwyg_label
+        type: section
+        comment: ''
+        span: right
+
+    help_enabled:
+        label: indikator.devtools::lang.form.help_enabled
+        type: switch
+        default: false
+        span: left
+
+    wysiwyg_enabled:
+        label: indikator.devtools::lang.form.wysiwyg_enabled
+        type: switch
+        default: false
+        span: right
+
+    help_superuser:
+        label: indikator.devtools::lang.form.select_superuser
+        type: switch
+        default: false
+        trigger:
+            action: show
+            field: help_enabled
+            condition: checked
+        span: left
+
+    wysiwyg_superuser:
+        label: indikator.devtools::lang.form.select_superuser
+        type: switch
+        default: false
+        trigger:
+            action: show
+            field: wysiwyg_enabled
+            condition: checked
+        span: right
+
+    help_admingroup:
+        label: indikator.devtools::lang.form.select_admingroup
+        type: dropdown
+        trigger:
+            action: show
+            field: help_enabled
+            condition: checked
+        span: left
+
+    wysiwyg_admingroup:
+        label: indikator.devtools::lang.form.select_admingroup
+        type: dropdown
+        trigger:
+            action: show
+            field: wysiwyg_enabled
+            condition: checked
+        span: right
+
+    help_adminid:
+        label: indikator.devtools::lang.form.select_adminid
+        type: dropdown
+        trigger:
+            action: show
+            field: help_enabled
+            condition: checked
+        span: left
+
+    wysiwyg_adminid:
+        label: indikator.devtools::lang.form.select_adminid
+        type: dropdown
+        trigger:
+            action: show
+            field: wysiwyg_enabled
+            condition: checked
+        span: right
