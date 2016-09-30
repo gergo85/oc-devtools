@@ -2,7 +2,7 @@
 It is a must-have plugin for you, if you use the October's Docs a lot or you want to use the build-in wysiwyg editor on the Content page.
 
 ## Main features
-* __Edit directly the plugins with code editor!__
+* __Edit directly plugins with the code editor!__
 * Add a Help tab to the Pages, Partials or Layouts page.
 * Replace the code editor to wysiwyg editor on the Content page.
 * Set a different permissions for the above features.
