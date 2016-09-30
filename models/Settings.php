@@ -31,7 +31,7 @@ class Settings extends Model
         $sql = DB::table('backend_users')->orderBy('login', 'asc')->get();
 
         foreach ($sql as $item) {
-            $result[$item->id] = $item->login.' ('.trim($item->first_name.' '.$item->last_name).' - '.$item->email.')';
+            $result[$item->id] = $item->login.' ('.$item->email.')';
         }
 
         return $result;
@@ -57,7 +57,7 @@ class Settings extends Model
         $sql = DB::table('backend_users')->orderBy('login', 'asc')->get();
 
         foreach ($sql as $item) {
-            $result[$item->id] = $item->login.' ('.trim($item->first_name.' '.$item->last_name).' - '.$item->email.')';
+            $result[$item->id] = $item->login.' ('.$item->email.')';
         }
 
         return $result;

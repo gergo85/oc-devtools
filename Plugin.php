@@ -3,6 +3,8 @@
 use System\Classes\PluginBase;
 use System\Classes\SettingsManager;
 use Event;
+use Backend;
+use BackendMenu;
 use BackendAuth;
 use Indikator\DevTools\Models\Settings as Tools;
 use DB;
@@ -29,7 +31,7 @@ class Plugin extends PluginBase
                 'icon'        => 'icon-wrench',
                 'class'       => 'Indikator\DevTools\Models\Settings',
                 'category'    => SettingsManager::CATEGORY_SYSTEM,
-                'permissions' => ['indikator.devtools']
+                'permissions' => ['indikator.devtools.settings']
             ]
         ];
     }
@@ -47,7 +49,11 @@ class Plugin extends PluginBase
     public function registerPermissions()
     {
         return [
-            'indikator.devtools' => [
+            'indikator.devtools.editor' => [
+                'tab'   => 'indikator.devtools::lang.plugin.name',
+                'label' => 'indikator.devtools::lang.editor.permission'
+            ],
+            'indikator.devtools.settings' => [
                 'tab'   => 'indikator.devtools::lang.plugin.name',
                 'label' => 'indikator.devtools::lang.help.permission'
             ]
@@ -56,15 +62,45 @@ class Plugin extends PluginBase
 
     public function boot()
     {
+        BackendMenu::registerCallback(function ($manager) {
+            $manager->registerMenuItems('Indikator.DevTools', [
+                'editor' => [
+                    'label'       => 'indikator.devtools::lang.editor.menu_label',
+                    'url'         => Backend::url('indikator/devtools/editor'),
+                    'icon'        => 'icon-file-code-o',
+                    'permissions' => ['indikator.devtools.editor'],
+                    'order'       => 500,
+
+                    'sideMenu' => [
+                        'assets' => [
+                            'label'        => 'indikator.devtools::lang.editor.plugins',
+                            'icon'         => 'icon-cubes',
+                            'url'          => 'javascript:;',
+                            'attributes'   => ['data-menu-item' => 'assets'],
+                            'counterLabel' => 'cms::lang.asset.unsaved_label'
+                        ]
+                    ]
+                ]
+            ]);
+        });
+
         Event::listen('backend.form.extendFields', function($form)
         {
             // Help docs
-            if ($this->tools_enabled('help') && (get_class($form->config->model) == 'Cms\Classes\Page' || get_class($form->config->model) == 'Cms\Classes\Partial' || get_class($form->config->model) == 'Cms\Classes\Layout')) {
+            if ($this->tools_enabled('help') && (get_class($form->config->model) == 'Cms\Classes\Page' || get_class($form->config->model) == 'Cms\Classes\Partial' || get_class($form->config->model) == 'Cms\Classes\Layout') || get_class($form->config->model) == 'Indikator\DevTools\Classes\Asset') {
+                if (get_class($form->config->model) == 'Indikator\DevTools\Classes\Asset') {
+                    $content = 'php';
+                }
+                else {
+                    $content = 'cms';
+                }
+
                 $form->addSecondaryTabFields([
                     'help' => [
-                        'label' => '',
-                        'tab'   => 'indikator.devtools::lang.help.tab',
-                        'type'  => 'help'
+                        'label'   => '',
+                        'tab'     => 'indikator.devtools::lang.help.tab',
+                        'type'    => 'help',
+                        'content' => $content
                     ]
                 ]);
 
