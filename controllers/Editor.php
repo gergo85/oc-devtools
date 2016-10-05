@@ -60,7 +60,7 @@ class Editor extends Controller
         $this->addJs('/modules/backend/formwidgets/codeeditor/assets/js/build-min.js', 'core');
 
         $this->bodyClass = 'compact-container';
-        $this->pageTitle = 'cms::lang.cms.menu_label';
+        $this->pageTitle = 'indikator.devtools::lang.editor.menu_label';
         $this->pageTitleTemplate = '%s '.trans($this->pageTitle);
 
         if (Request::ajax() && Request::input('formWidgetAlias')) {
