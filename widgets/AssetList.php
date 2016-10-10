@@ -261,7 +261,7 @@ class AssetList extends WidgetBase
         }
 
         return [
-            '#'.$this->getId('asset-list') => $this->makePartial('items', ['items'=>$this->getData()])
+            '#'.$this->getId('asset-list') => $this->makePartial('items', ['items' => $this->getData()])
         ];
     }
 
@@ -358,7 +358,7 @@ class AssetList extends WidgetBase
         }
 
         return [
-            '#'.$this->getId('asset-list') => $this->makePartial('items', ['items'=>$this->getData()])
+            '#'.$this->getId('asset-list') => $this->makePartial('items', ['items' => $this->getData()])
         ];
     }
 
