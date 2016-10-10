@@ -76,11 +76,6 @@ class Editor extends Controller
 
         $this->vars['templatePath'] = Request::input('path');
 
-        if ($type == 'page') {
-            $router = new RainRouter;
-            $this->vars['pageUrl'] = $router->urlFromPattern($template->url);
-        }
-
         return [
             'tabTitle' => $this->getTabTitle($type, $template),
             'tab'      => $this->makePartial('form_page', [
@@ -337,42 +332,6 @@ class Editor extends Controller
 
     protected function upgradeSettings($settings)
     {
-        /*
-         * Handle component usage
-         */
-        $componentProperties = post('component_properties');
-        $componentNames = post('component_names');
-        $componentAliases = post('component_aliases');
-
-        if ($componentProperties !== null) {
-            if ($componentNames === null || $componentAliases === null) {
-                throw new ApplicationException(trans('cms::lang.component.invalid_request'));
-            }
-
-            $count = count($componentProperties);
-            if (count($componentNames) != $count || count($componentAliases) != $count) {
-                throw new ApplicationException(trans('cms::lang.component.invalid_request'));
-            }
-
-            for ($index = 0; $index < $count; $index++) {
-                $componentName = $componentNames[$index];
-                $componentAlias = $componentAliases[$index];
-
-                $section = $componentName;
-                if ($componentAlias != $componentName) {
-                    $section .= ' '.$componentAlias;
-                }
-
-                $properties = json_decode($componentProperties[$index], true);
-
-                unset($properties['oc.alias']);
-                unset($properties['inspectorProperty']);
-                unset($properties['inspectorClassName']);
-
-                $settings[$section] = $properties;
-            }
-        }
-
         /*
          * Handle view bag
          */
