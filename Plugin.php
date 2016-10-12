@@ -11,6 +11,8 @@ use DB;
 
 class Plugin extends PluginBase
 {
+    public $elevated = true;
+
     public function pluginDetails()
     {
         return [
@@ -115,7 +117,7 @@ class Plugin extends PluginBase
                     }
                 }
             }
-        }); 
+        });
     }
 
     public function tools_enabled($name)
