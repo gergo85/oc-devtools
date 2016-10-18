@@ -7,9 +7,9 @@ return [
         'author' => 'Gergő Szabó'
     ],
     'editor' => [
-        'menu_label' => 'Editor',
+        'menu_label' => 'Code editor',
         'plugins' => 'Plugins',
-        'permission' => 'Use code editor'
+        'permission' => 'Use the code editor'
     ],
     'help' => [
         'menu_label' => 'Developer Tools',
