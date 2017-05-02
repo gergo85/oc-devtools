@@ -31,6 +31,7 @@ class Plugin extends PluginBase
                 'label'       => 'indikator.devtools::lang.help.menu_label',
                 'description' => 'indikator.devtools::lang.help.menu_description',
                 'icon'        => 'icon-wrench',
+                'iconSvg'     => 'plugins/indikator/devtools/assets/images/devtools-icon.svg',
                 'class'       => 'Indikator\DevTools\Models\Settings',
                 'category'    => SettingsManager::CATEGORY_SYSTEM,
                 'permissions' => ['indikator.devtools.settings']
