@@ -31,7 +31,6 @@ class Plugin extends PluginBase
                 'label'       => 'indikator.devtools::lang.help.menu_label',
                 'description' => 'indikator.devtools::lang.help.menu_description',
                 'icon'        => 'icon-wrench',
-                'iconSvg'     => 'plugins/indikator/devtools/assets/images/devtools-icon.svg',
                 'class'       => 'Indikator\DevTools\Models\Settings',
                 'category'    => SettingsManager::CATEGORY_SYSTEM,
                 'permissions' => ['indikator.devtools.settings']
@@ -71,6 +70,7 @@ class Plugin extends PluginBase
                     'label'       => 'indikator.devtools::lang.editor.menu_label',
                     'url'         => Backend::url('indikator/devtools/editor'),
                     'icon'        => 'icon-file-code-o',
+                    'iconSvg'     => 'plugins/indikator/devtools/assets/images/devtools-icon.svg',
                     'permissions' => ['indikator.devtools.editor'],
                     'order'       => 500,
 
