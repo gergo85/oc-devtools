@@ -9,7 +9,6 @@ use Response;
 use Exception;
 use BackendMenu;
 use Indikator\DevTools\Widgets\AssetList;
-use Cms\Widgets\TemplateList;
 use Cms\Classes\Router;
 use Cms\Classes\CmsCompoundObject;
 use Cms\Classes\ComponentManager;
@@ -48,14 +47,14 @@ class Editor extends Controller
 
     public function index()
     {
-        $this->addJs('/modules/cms/assets/js/october.cmspage.js', 'core');
-        $this->addJs('/modules/cms/assets/js/october.dragcomponents.js', 'core');
-        $this->addJs('/modules/cms/assets/js/october.tokenexpander.js', 'core');
-        $this->addCss('/modules/cms/assets/css/october.components.css', 'core');
+        $this->addJs('/modules/cms/assets/js/october.cmspage.js');
+        $this->addJs('/modules/cms/assets/js/october.dragcomponents.js');
+        $this->addJs('/modules/cms/assets/js/october.tokenexpander.js');
+        $this->addCss('/modules/cms/assets/css/october.components.css');
 
         // Preload the code editor class as it could be needed
         // before it loads dynamically.
-        $this->addJs('/modules/backend/formwidgets/codeeditor/assets/js/build-min.js', 'core');
+        $this->addJs('/modules/backend/formwidgets/codeeditor/assets/js/build-min.js');
 
         $this->bodyClass = 'compact-container';
         $this->pageTitle = 'indikator.devtools::lang.editor.menu_label';
