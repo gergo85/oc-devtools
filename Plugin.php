@@ -4,10 +4,10 @@ use System\Classes\PluginBase;
 use System\Classes\SettingsManager;
 use Event;
 use Backend;
-use BackendMenu;
 use BackendAuth;
+use BackendMenu;
 use Indikator\DevTools\Models\Settings as Tools;
-use DB;
+use Db;
 
 class Plugin extends PluginBase
 {
@@ -63,8 +63,14 @@ class Plugin extends PluginBase
     }
 
     public function boot()
-    {
-        BackendMenu::registerCallback(function ($manager) {
+    {            
+        // Security check
+        if (!BackendAuth::check()) {
+            return;
+        }
+
+        // Add new menu
+        BackendMenu::registerCallback(function($manager) {
             $manager->registerMenuItems('Indikator.DevTools', [
                 'editor' => [
                     'label'       => 'indikator.devtools::lang.editor.menu_label',
@@ -87,6 +93,7 @@ class Plugin extends PluginBase
             ]);
         });
 
+        // Add new features
         Event::listen('backend.form.extendFields', function($form)
         {
             // Help docs
@@ -142,7 +149,7 @@ class Plugin extends PluginBase
         }
 
         // Is admin group
-        if (Tools::get($name.'_admingroup', false) > 0 && DB::table('backend_users_groups')->where('user_id', $admin->id)->where('user_group_id', Tools::get($name.'_admingroup', false))->count() == 1) {
+        if (Tools::get($name.'_admingroup', false) > 0 && Db::table('backend_users_groups')->where(['user_id' => $admin->id, 'user_group_id' => Tools::get($name.'_admingroup', false)])->count() == 1) {
             return true;
         }
 

@@ -1,7 +1,7 @@
 <?php namespace Indikator\DevTools\Models;
 
 use Model;
-use DB;
+use Db;
 
 class Settings extends Model
 {
@@ -15,10 +15,10 @@ class Settings extends Model
     {
         $result = [0 => 'indikator.devtools::lang.form.select_none'];
 
-        $sql = DB::table('backend_user_groups')->orderBy('name', 'asc')->get();
+        $sql = Db::table('backend_user_groups')->orderBy('name', 'asc')->get();
 
         foreach ($sql as $item) {
-            $result[$item->id] = $item->name.' ('.DB::table('backend_users_groups')->where('user_group_id', $item->id)->count().')';
+            $result[$item->id] = $item->name.' ('.Db::table('backend_users_groups')->where('user_group_id', $item->id)->count().')';
         }
 
         return $result;
@@ -28,7 +28,7 @@ class Settings extends Model
     {
         $result = [0 => 'indikator.devtools::lang.form.select_none'];
 
-        $sql = DB::table('backend_users')->orderBy('login', 'asc')->get();
+        $sql = Db::table('backend_users')->orderBy('login', 'asc')->get();
 
         foreach ($sql as $item) {
             $result[$item->id] = $item->login.' ('.$item->email.')';
@@ -41,10 +41,10 @@ class Settings extends Model
     {
         $result = [0 => 'indikator.devtools::lang.form.select_none'];
 
-        $sql = DB::table('backend_user_groups')->orderBy('name', 'asc')->get();
+        $sql = Db::table('backend_user_groups')->orderBy('name', 'asc')->get();
 
         foreach ($sql as $item) {
-            $result[$item->id] = $item->name.' ('.DB::table('backend_users_groups')->where('user_group_id', $item->id)->count().')';
+            $result[$item->id] = $item->name.' ('.Db::table('backend_users_groups')->where('user_group_id', $item->id)->count().')';
         }
 
         return $result;
@@ -54,7 +54,7 @@ class Settings extends Model
     {
         $result = [0 => 'indikator.devtools::lang.form.select_none'];
 
-        $sql = DB::table('backend_users')->orderBy('login', 'asc')->get();
+        $sql = Db::table('backend_users')->orderBy('login', 'asc')->get();
 
         foreach ($sql as $item) {
             $result[$item->id] = $item->login.' ('.$item->email.')';
