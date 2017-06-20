@@ -63,12 +63,7 @@ class Plugin extends PluginBase
     }
 
     public function boot()
-    {            
-        // Security check
-        if (!BackendAuth::check()) {
-            return;
-        }
-
+    {
         // Add new menu
         BackendMenu::registerCallback(function($manager) {
             $manager->registerMenuItems('Indikator.DevTools', [
@@ -96,6 +91,11 @@ class Plugin extends PluginBase
         // Add new features
         Event::listen('backend.form.extendFields', function($form)
         {
+            // Security check
+            if (!BackendAuth::check()) {
+                return;
+            }
+
             // Help docs
             if ($this->tools_enabled('help') && (get_class($form->config->model) == 'Cms\Classes\Page' || get_class($form->config->model) == 'Cms\Classes\Partial' || get_class($form->config->model) == 'Cms\Classes\Layout') || get_class($form->config->model) == 'Indikator\DevTools\Classes\Asset') {
                 if (get_class($form->config->model) == 'Indikator\DevTools\Classes\Asset') {
