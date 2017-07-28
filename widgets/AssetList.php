@@ -1,7 +1,7 @@
 <?php namespace Indikator\DevTools\Widgets;
 
 use Str;
-use URL;
+use Url;
 use File;
 use Lang;
 use Input;
@@ -9,6 +9,7 @@ use Config;
 use Request;
 use Response;
 use Validator;
+use Cms\Classes\Theme;
 use Indikator\DevTools\Classes\Asset;
 use Backend\Classes\WidgetBase;
 use System\Classes\PluginManager;
@@ -34,6 +35,8 @@ class AssetList extends WidgetBase
 
     protected $searchTerm = false;
 
+    protected $theme;
+
     protected $groupStatusCache = false;
 
     /**
@@ -54,6 +57,7 @@ class AssetList extends WidgetBase
     public function __construct($controller, $alias)
     {
         $this->alias = $alias;
+        $this->theme = Theme::getEditTheme();
         $this->selectionInputName = 'file';
         $this->assetExtensions = FileDefinitions::get('assetExtensions');
 
@@ -101,7 +105,7 @@ class AssetList extends WidgetBase
 
         $delay = Input::get('delay');
         if ($delay) {
-            usleep(1000000*$delay);
+            usleep(1000000 * $delay);
         }
 
         $this->putSession('currentPath', $path);
@@ -419,7 +423,7 @@ class AssetList extends WidgetBase
 
     protected function getThemeFileUrl($path)
     {
-        return URL::to('plugins'.$path);
+        return Url::to('plugins'.$path);
     }
 
     public function getCurrentRelativePath()
@@ -550,7 +554,7 @@ class AssetList extends WidgetBase
                     continue;
                 }
 
-                $result[$relativePath] = str_repeat('&nbsp;', $level*4).$node->getFilename();
+                $result[$relativePath] = str_repeat('&nbsp;', $level * 4).$node->getFilename();
 
                 $this->listDestinationDirectories($result, $excludeList, $fullPath, $level+1);
             }
