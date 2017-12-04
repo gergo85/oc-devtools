@@ -53,11 +53,15 @@ class Plugin extends PluginBase
         return [
             'indikator.devtools.editor' => [
                 'tab'   => 'indikator.devtools::lang.plugin.name',
-                'label' => 'indikator.devtools::lang.editor.permission'
+                'label' => 'indikator.devtools::lang.editor.permission',
+                'order' => 100,
+                'roles' => ['developer']
             ],
             'indikator.devtools.settings' => [
                 'tab'   => 'indikator.devtools::lang.plugin.name',
-                'label' => 'indikator.devtools::lang.help.permission'
+                'label' => 'indikator.devtools::lang.help.permission',
+                'order' => 200,
+                'roles' => ['developer']
             ]
         ];
     }
