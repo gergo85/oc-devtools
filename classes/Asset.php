@@ -23,7 +23,7 @@ class Asset extends Extendable
     protected $theme;
 
     /**
-     * @var string The container name.
+     * @var string The plugin folder name.
      */
     protected $dirName = 'plugins';
 

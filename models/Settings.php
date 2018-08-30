@@ -11,11 +11,12 @@ class Settings extends Model
 
     public $settingsFields = 'fields.yaml';
 
+    public $selectList = [0 => 'indikator.devtools::lang.form.select_none'];
+
     public function getHelpAdmingroupOptions()
     {
-        $result = [0 => 'indikator.devtools::lang.form.select_none'];
-
-        $sql = Db::table('backend_user_groups')->orderBy('name', 'asc')->get();
+        $result = $this->selectList;
+        $sql = Db::table('backend_user_groups')->orderBy('name', 'asc')->get()->all();
 
         foreach ($sql as $item) {
             $result[$item->id] = $item->name.' ('.Db::table('backend_users_groups')->where('user_group_id', $item->id)->count().')';
@@ -26,9 +27,8 @@ class Settings extends Model
 
     public function getHelpAdminidOptions()
     {
-        $result = [0 => 'indikator.devtools::lang.form.select_none'];
-
-        $sql = Db::table('backend_users')->orderBy('login', 'asc')->get();
+        $result = $this->selectList;
+        $sql = Db::table('backend_users')->orderBy('login', 'asc')->get()->all();
 
         foreach ($sql as $item) {
             $result[$item->id] = $item->login.' ('.$item->email.')';
@@ -39,9 +39,8 @@ class Settings extends Model
 
     public function getWysiwygAdmingroupOptions()
     {
-        $result = [0 => 'indikator.devtools::lang.form.select_none'];
-
-        $sql = Db::table('backend_user_groups')->orderBy('name', 'asc')->get();
+        $result = $this->selectList;
+        $sql = Db::table('backend_user_groups')->orderBy('name', 'asc')->get()->all();
 
         foreach ($sql as $item) {
             $result[$item->id] = $item->name.' ('.Db::table('backend_users_groups')->where('user_group_id', $item->id)->count().')';
@@ -52,9 +51,8 @@ class Settings extends Model
 
     public function getWysiwygAdminidOptions()
     {
-        $result = [0 => 'indikator.devtools::lang.form.select_none'];
-
-        $sql = Db::table('backend_users')->orderBy('login', 'asc')->get();
+        $result = $this->selectList;
+        $sql = Db::table('backend_users')->orderBy('login', 'asc')->get()->all();
 
         foreach ($sql as $item) {
             $result[$item->id] = $item->login.' ('.$item->email.')';

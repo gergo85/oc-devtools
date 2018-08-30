@@ -8,16 +8,20 @@ use Request;
 use Response;
 use Exception;
 use BackendMenu;
+use Indikator\DevTools\Classes\Asset;
 use Indikator\DevTools\Widgets\AssetList;
 use Cms\Classes\Router;
-use Cms\Classes\CmsCompoundObject;
-use Cms\Classes\ComponentManager;
-use Cms\Classes\ComponentPartial;
 use Backend\Classes\Controller;
 use Backend\Classes\WidgetManager;
 use October\Rain\Router\Router as RainRouter;
 use ApplicationException;
 
+/**
+ * CMS index
+ *
+ * @package october\cms
+ * @author Alexey Bobkov, Samuel Georges
+ */
 class Editor extends Controller
 {
     use \Backend\Traits\InspectableContainer;
@@ -25,7 +29,7 @@ class Editor extends Controller
     public $requiredPermissions = ['indikator.devtools.editor'];
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -47,17 +51,17 @@ class Editor extends Controller
 
     public function index()
     {
-        $this->addJs('/modules/cms/assets/js/october.cmspage.js');
-        $this->addJs('/modules/cms/assets/js/october.dragcomponents.js');
-        $this->addJs('/modules/cms/assets/js/october.tokenexpander.js');
-        $this->addCss('/modules/cms/assets/css/october.components.css');
+        $this->addJs('/plugins/indikator/devtools/assets/october.cmspage.js');
+        $this->addJs('/modules/cms/assets/js/october.dragcomponents.js', 'core');
+        $this->addJs('/modules/cms/assets/js/october.tokenexpander.js', 'core');
+        $this->addCss('/modules/cms/assets/css/october.components.css', 'core');
 
         // Preload the code editor class as it could be needed
         // before it loads dynamically.
-        $this->addJs('/modules/backend/formwidgets/codeeditor/assets/js/build-min.js');
+        $this->addJs('/modules/backend/formwidgets/codeeditor/assets/js/build-min.js', 'core');
 
         $this->bodyClass = 'compact-container';
-        $this->pageTitle = 'indikator.devtools::lang.editor.menu_label';
+        $this->pageTitle = 'cms::lang.cms.menu_label';
         $this->pageTitleTemplate = '%s '.trans($this->pageTitle);
 
         if (Request::ajax() && Request::input('formWidgetAlias')) {
@@ -72,6 +76,11 @@ class Editor extends Controller
         $widget = $this->makeTemplateFormWidget($type, $template);
 
         $this->vars['templatePath'] = Request::input('path');
+
+        if ($type === 'page') {
+            $router = new RainRouter;
+            $this->vars['pageUrl'] = $router->urlFromPattern($template->url);
+        }
 
         return [
             'tabTitle' => $this->getTabTitle($type, $template),
@@ -156,7 +165,7 @@ class Editor extends Controller
         $type = Request::input('type');
         $template = $this->createTemplate($type);
 
-        if ($type == 'asset') {
+        if ($type === 'asset') {
             $template->fileName = $this->widget->assetList->getCurrentRelativePath();
         }
 
@@ -217,38 +226,6 @@ class Editor extends Controller
         $this->fireSystemEvent('cms.template.delete', [$type]);
     }
 
-    public function onExpandMarkupToken()
-    {
-        if (!$alias = post('tokenName')) {
-            throw new ApplicationException(trans('cms::lang.component.no_records'));
-        }
-
-        // Can only expand components at this stage
-        if ((!$type = post('tokenType')) && $type != 'component') {
-            return;
-        }
-
-        if (!($names = (array) post('component_names')) || !($aliases = (array) post('component_aliases'))) {
-            throw new ApplicationException(trans('cms::lang.component.not_found', ['name' => $alias]));
-        }
-
-        if (($index = array_get(array_flip($aliases), $alias, false)) === false) {
-            throw new ApplicationException(trans('cms::lang.component.not_found', ['name' => $alias]));
-        }
-
-        if (!$componentName = array_get($names, $index)) {
-            throw new ApplicationException(trans('cms::lang.component.not_found', ['name' => $alias]));
-        }
-
-        $manager = ComponentManager::instance();
-        $componentObj = $manager->makeComponent($componentName);
-        $partial = ComponentPartial::load($componentObj, 'default');
-        $content = $partial->getContent();
-        $content = str_replace('__SELF__', $alias, $content);
-
-        return $content;
-    }
-
     //
     // Methods for the internal use
     //
@@ -256,7 +233,7 @@ class Editor extends Controller
     protected function resolveTypeClassName($type)
     {
         $types = [
-            'asset' => '\Indikator\DevTools\Classes\Asset'
+            'asset' => Asset::class
         ];
 
         if (!array_key_exists($type, $types)) {
@@ -275,7 +252,7 @@ class Editor extends Controller
         }
 
         /*
-        * Extensibility
+         * Extensibility
          */
         $this->fireSystemEvent('cms.template.processSettingsAfterLoad', [$template]);
 
@@ -295,9 +272,8 @@ class Editor extends Controller
 
     protected function getTabTitle($type, $template)
     {
-        if ($type == 'asset') {
+        if ($type === 'asset') {
             $result = in_array($type, ['asset', 'content']) ? $template->getFileName() : $template->getBaseFileName();
-
             if (!$result) {
                 $result = trans('cms::lang.'.$type.'.new');
             }
@@ -329,6 +305,40 @@ class Editor extends Controller
 
     protected function upgradeSettings($settings)
     {
+        /*
+         * Handle component usage
+         */
+        $componentProperties = post('component_properties');
+        $componentNames = post('component_names');
+        $componentAliases = post('component_aliases');
+
+        if ($componentProperties !== null) {
+            if ($componentNames === null || $componentAliases === null) {
+                throw new ApplicationException(trans('cms::lang.component.invalid_request'));
+            }
+
+            $count = count($componentProperties);
+            if (count($componentNames) != $count || count($componentAliases) != $count) {
+                throw new ApplicationException(trans('cms::lang.component.invalid_request'));
+            }
+
+            for ($index = 0; $index < $count; $index++) {
+                $componentName = $componentNames[$index];
+                $componentAlias = $componentAliases[$index];
+
+                $section = $componentName;
+                if ($componentAlias != $componentName) {
+                    $section .= ' '.$componentAlias;
+                }
+
+                $properties = json_decode($componentProperties[$index], true);
+                unset($properties['oc.alias']);
+                unset($properties['inspectorProperty']);
+                unset($properties['inspectorClassName']);
+                $settings[$section] = $properties;
+            }
+        }
+
         /*
          * Handle view bag
          */
@@ -365,8 +375,7 @@ class Editor extends Controller
      */
     protected function convertLineEndings($markup)
     {
-        $markup = str_replace("\r\n", "\n", $markup);
-        $markup = str_replace("\r", "\n", $markup);
+        $markup = str_replace(["\r\n", "\r"], "\n", $markup);
 
         return $markup;
     }
