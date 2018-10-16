@@ -13,6 +13,7 @@ use Indikator\DevTools\Widgets\AssetList;
 use Cms\Classes\Router;
 use Backend\Classes\Controller;
 use Backend\Classes\WidgetManager;
+use System\Helpers\DateTime;
 use October\Rain\Router\Router as RainRouter;
 use ApplicationException;
 
@@ -76,6 +77,7 @@ class Editor extends Controller
         $widget = $this->makeTemplateFormWidget($type, $template);
 
         $this->vars['templatePath'] = Request::input('path');
+        $this->vars['lastModified'] = DateTime::makeCarbon($template->mtime);
 
         if ($type === 'page') {
             $router = new RainRouter;
