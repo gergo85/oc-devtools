@@ -16,7 +16,7 @@ It is a must-have plugin for you, if you use the October's Docs a lot or you wan
 You can find it in the back-end: __Settings > System > Developer Tools__
 
 ## PHP's configuration
-If you like to get the PHP's configuration of your server, use the following URL: www.yourwebsite.com/__phpinfo__
+If you like to get the PHP's configuration of your server, use the following URL: www.yourwebsite.com/phpinfo
 
 ## Installation
 1. Go to the __Settings > Updates & Plugins__ page in the Backend.
