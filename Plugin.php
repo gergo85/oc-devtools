@@ -77,7 +77,7 @@ class Plugin extends PluginBase
                     'icon'        => 'icon-file-code-o',
                     'iconSvg'     => 'plugins/indikator/devtools/assets/images/devtools-icon.svg',
                     'permissions' => ['indikator.devtools.editor'],
-                    'order'       => 500,
+                    'order'       => 390,
 
                     'sideMenu' => [
                         'assets' => [
@@ -85,7 +85,8 @@ class Plugin extends PluginBase
                             'icon'         => 'icon-cubes',
                             'url'          => 'javascript:;',
                             'attributes'   => ['data-menu-item' => 'assets'],
-                            'counterLabel' => 'cms::lang.asset.unsaved_label'
+                            'counterLabel' => 'cms::lang.asset.unsaved_label',
+                            'order'        => 100
                         ]
                     ]
                 ]
