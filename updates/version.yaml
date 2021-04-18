@@ -7,9 +7,10 @@
 1.1.5: Minor code improvements and bugfix.
 1.1.6: The top menu icon shows again.
 1.1.7: Fixed the Create folder issue.
-1.1.8: !!! Updated for October 420+.
+1.1.8: "!!! Updated for October 420+."
 1.1.9:
     - Updated the main navigation icon.
     - Added last modified date.
 1.2.0: The syntax highlighting works again!
 1.2.1: Help links open in a new window.
+1.2.2: Fixes dependency bug in asset list on newer platform versions
