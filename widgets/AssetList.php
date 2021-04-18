@@ -70,8 +70,8 @@ class AssetList extends WidgetBase
      */
     protected function loadAssets()
     {
-        $this->addCss('/modules/cms/widgets/assetlist/assets/css/assetlist.css');
-        $this->addJs('/modules/cms/widgets/assetlist/assets/js/assetlist.js');
+        $this->addCss('css/assetlist.css');
+        $this->addJs('js/assetlist.js');
     }
 
     /**
