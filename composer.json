@@ -1,7 +1,10 @@
 {
     "name": "indikator/devtools-plugin",
     "type": "october-plugin",
-    "description": "None",
+    "description": "It is a must-have plugin for you, if you use the October's Docs a lot or you want to use the build-in wysiwyg editor on the Content page.",
+    "homepage": "https://octobercms.com/plugin/indikator-devtools",
+    "keywords": ["october", "octobercms"],
+    "license": "MIT",
     "require": {
         "composer/installers": "~1.0"
     }
