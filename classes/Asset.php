@@ -3,6 +3,7 @@
 use File;
 use Lang;
 use Config;
+use Request;
 use Cms\Classes\Theme;
 use Cms\Helpers\File as FileHelper;
 use October\Rain\Extension\Extendable;
@@ -207,6 +208,23 @@ class Asset extends Extendable
         $this->exists = true;
     }
 
+    public function delete()
+    {
+        $fileName = Request::input('fileName');
+        $fullPath = $this->getFilePath($fileName);
+
+        $this->validateFileName($fileName);
+
+        if (File::exists($fullPath)) {
+            if (!@File::delete($fullPath)) {
+                throw new ApplicationException(Lang::get(
+                    'cms::lang.asset.error_deleting_file',
+                    ['name' => $fileName]
+                ));
+            }
+        }
+    }
+
     /**
      * Validate the supplied filename, extension and path.
      * @param string $fileName
@@ -276,7 +294,7 @@ class Asset extends Extendable
      */
     public static function getEditableExtensions()
     {
-        $defaultTypes = ['css', 'js', 'less', 'sass', 'scss', 'php', 'htm', 'html', 'yaml', 'md', 'txt'];
+        $defaultTypes = ['js', 'jsx', 'css', 'sass', 'scss', 'less', 'php', 'htm', 'html', 'yaml', 'md', 'txt'];
 
         $configTypes = Config::get('cms.editableAssetTypes');
         if (!$configTypes) {

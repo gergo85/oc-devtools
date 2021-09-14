@@ -197,13 +197,13 @@
 
         $panel.append($collapseIcon);
 
-        $collapseIcon.click(function(){
+        $collapseIcon.click(function() {
             $panel.toggleClass('collapsed')
 
             if (typeof(localStorage) !== 'undefined')
                 localStorage.ocCmsTablessCollapsed = $panel.hasClass('collapsed') ? 1 : 0
 
-            window.setTimeout(function(){
+            window.setTimeout(function() {
                 $(window).trigger('oc.updateUi')
             }, 500)
 
@@ -217,7 +217,7 @@
         if ($primaryPanel.length > 0) {
             $secondaryPanel.append($primaryCollapseIcon);
 
-            $primaryCollapseIcon.click(function(){
+            $primaryCollapseIcon.click(function() {
                 $primaryPanel.toggleClass('collapsed')
                 $secondaryPanel.toggleClass('primary-collapsed')
                 $(window).trigger('oc.updateUi')
@@ -341,7 +341,7 @@
             $('#cms-master-tabs').ocTab('addTab', data.tabTitle, data.tab, tabId, $form.data('type-icon') + ' new-template')
             $('#layout-side-panel').trigger('close.oc.sidePanel')
             self.setPageTitle(data.tabTitle)
-        }).always(function(){
+        }).always(function() {
             $.oc.stripeLoadIndicator.hide()
         })
     }
@@ -371,7 +371,7 @@
 
             if (data.error !== undefined && $.type(data.error) === 'string' && data.error.length)
                 $.oc.flashMsg({text: data.error, 'class': 'error'})
-        }).always(function(){
+        }).always(function() {
             self.updateTemplateList(templateType)
             $.oc.stripeLoadIndicator.hide()
         })
@@ -398,7 +398,7 @@
             $componentList = $('#cms-master-tabs > div.tab-content > .tab-pane.active .control-componentlist .layout'),
             $cell = $(ev.target).parent()
 
-        $('div.layout-cell', $componentList).each(function(){
+        $('div.layout-cell', $componentList).each(function() {
             if ($cell.get(0) == this)
                 return true
 
@@ -463,7 +463,7 @@
             counter = 2,
             existingAliases = []
 
-        $('div.layout-cell input[name="component_aliases[]"]', $componentList).each(function(){
+        $('div.layout-cell input[name="component_aliases[]"]', $componentList).each(function() {
             existingAliases.push($(this).val())
         })
 
@@ -541,7 +541,7 @@
             mode = modes[extension];
 
         var setEditorMode = function() {
-            window.setTimeout(function(){
+            window.setTimeout(function() {
                 editor.data('oc.codeEditor').editor.getSession().setMode({path: 'ace/mode/'+mode})
             }, 200)
         }
@@ -561,7 +561,7 @@
             asset: { menu: 'assets', count:  0}
         }
 
-        $('> div.tab-content > div.tab-pane[data-modified]', '#cms-master-tabs').each(function(){
+        $('> div.tab-content > div.tab-pane[data-modified]', '#cms-master-tabs').each(function() {
             var inputType = $('> form > input[name=templateType]', this).val()
             counters[inputType].count++
         })
@@ -590,7 +590,7 @@
             )
         )
 
-        breakButton.hide().on('click', function(){
+        breakButton.hide().on('click', function() {
             self.handleExpandToken(editor, $form)
             return false
         })
@@ -598,11 +598,11 @@
         $('ul:first', toolbar).prepend(breakButton)
 
         editor
-            .on('show.oc.tokenexpander', function(){
+            .on('show.oc.tokenexpander', function() {
                 canExpand = true
                 breakButton.show()
             })
-            .on('hide.oc.tokenexpander', function(){
+            .on('hide.oc.tokenexpander', function() {
                 canExpand = false
                 breakButton.hide()
             })
@@ -628,12 +628,12 @@
         var popup = $form.data('oc.popup'),
             self = this
 
-        $(popup.$content).on('click', 'button[data-action=reload]', function(){
+        $(popup.$content).on('click', 'button[data-action=reload]', function() {
             popup.hide()
             self.reloadForm(form)
         })
 
-        $(popup.$content).on('click', 'button[data-action=save]', function(){
+        $(popup.$content).on('click', 'button[data-action=save]', function() {
             popup.hide()
 
             $('input[name=templateForceSave]', $form).val(1)
@@ -684,7 +684,7 @@
     CmsPage.prototype.updateLayouts = function(form) {
         $(form).request('onGetTemplateList', {
             success: function(data) {
-                $('#cms-master-tabs > .tab-content select[name="settings[layout]"]').each(function(){
+                $('#cms-master-tabs > .tab-content select[name="settings[layout]"]').each(function() {
                     var
                         $select = $(this),
                         value = $select.val()

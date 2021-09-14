@@ -13,4 +13,5 @@
     - Added last modified date.
 1.2.0: The syntax highlighting works again!
 1.2.1: Help links open in a new window.
-1.2.2: Fixes dependency bug in asset list on newer platform versions
+1.2.2: Fixed the dependency bug in asset list.
+1.2.3: The file delete operation works again.
